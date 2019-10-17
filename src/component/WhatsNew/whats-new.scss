@@ -1,0 +1,103 @@
+.whats-new {
+  width: 100%;
+  background-color: #fff;
+  height: 94vh;
+  position: relative;
+  overflow: hidden;
+  border-left: 1px solid #d4d4d4;
+
+  .header-novelty {
+    height: 153px;
+    $blue: transparentize(#1a237e, .9);
+    $white: transparentize(#fff, 1);
+    background-image: linear-gradient(to bottom,$blue, $white);
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 4;
+    padding-left: 40px;
+
+    &.collapse {
+      height: 66px;
+      font-size: 22px;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+      line-height: 3;
+    }
+
+    .add-novelty {
+      font-size: 12px;
+      cursor: pointer;
+      margin: 20px;
+      padding: 10px;
+      border: 1px solid #d4d4d4;
+      display: inline;
+      position: relative;
+      top: -7px;
+      right: 0;
+      border-radius: 5px;
+
+      &:hover {
+        background: rgba(151, 157, 245, 0.39);
+      }
+    }
+  }
+
+  .container-novelty {
+    padding: 0 40px;
+
+    h1 {
+      font-size: 26px;
+      font-weight: 500;
+      color: #212121;
+      max-width: 500px;
+    }
+
+    .time-novelty {
+      font-size: 14px;
+      display: inline-block;
+      position: absolute;
+      right: 40px;
+      top: 30px;
+      color: #757575;
+    }
+
+    .novelty {
+      h2 {
+        padding: 35px 0 10px 0;
+        font-size: 18px;
+        font-weight: 500;
+        color: #212121;
+      }
+
+      ul li {
+        color: #212121;
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 10px 0 10px 20px;
+        list-style-type: none;
+
+        &::before {
+          content: "\2022";
+          color: #1a237e;
+          font-weight: bold;
+          display: inline-block;
+          width: 1em;
+          margin-left: -1em;
+        }
+      }
+
+      img {
+        background-size: 50% 50%;
+        background-repeat: no-repeat;
+        display: block;
+        max-width: 100%;
+      }
+    }
+
+    .line {
+      height: 1px;
+      background-color: #eeeeee;
+      margin: 30px 40px 40px 40px;
+      padding: 0 40px;
+    }
+  }
+}

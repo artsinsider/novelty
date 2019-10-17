@@ -1,0 +1,22 @@
+.radio-group {
+  color: #2992cf;
+  display: inline-block;
+  font-size: 14px;
+  margin-right: 10px;
+  margin-top: 5px;
+  line-height: 5px;
+  user-select: none;
+
+  .radio-name {
+    display: inline-block;
+    color: #4d4d4d;
+    font-size: 12px;
+    margin: 5px;
+  }
+
+  svg {
+    position: relative;
+    top: 3px;
+  }
+
+}

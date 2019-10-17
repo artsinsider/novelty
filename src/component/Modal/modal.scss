@@ -1,0 +1,19 @@
+.Modal {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  outline: none;
+}
+
+.Overlay {
+  width: 50%;
+  position: fixed;
+  top: 59px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  background-image: linear-gradient(to bottom, rgba(26, 35, 126, 0.1), rgba(255, 255, 255, 0));
+}

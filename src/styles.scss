@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  * {
+    font-family: 'Fira Sans', sans-serif;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
