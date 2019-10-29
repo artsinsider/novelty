@@ -1,6 +1,6 @@
 import React   from "react";
 import * as FA from "react-icons/fa";
-import "./checkbox.scss";
+import style from "./checkbox.scss";
 
 export default class Checkbox extends React.PureComponent {
     constructor(props){
@@ -19,9 +19,9 @@ export default class Checkbox extends React.PureComponent {
 
     render() {
         return (
-            <div className="check-group" onClick={this.changeChecked}>
+            <div className={style["check-group"]} onClick={this.changeChecked}>
                 {this.state.check ? <FA.FaCheckSquare/>  : <FA.FaSquare/>}
-                <p className="check-name" >{this.props.children}</p>
+                <p className={style["check-name"]} >{this.props.children}</p>
             </div>
         )
     }

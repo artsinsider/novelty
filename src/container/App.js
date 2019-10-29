@@ -4,7 +4,7 @@ import WhatsNew from "../component/WhatsNew/WhatsNew"
 import Announcement from "../component/Announcement/Announcement"
 import Wrap from "../test/Wrapper"
 import moment from "moment"
-import "./app.scss"
+import appStyle from  "./app.scss"
 
 const locale = 'ru';
 moment.locale(locale);
@@ -127,8 +127,8 @@ class App extends React.Component {
 
         return (
             <>
-                <div className="header">Аннонсы</div>
-                <div className="container">
+                <div className={appStyle["header"]}>Аннонсы</div>
+                <div className={appStyle["container"]}>
                     <Announcement
                         announcement={listAnnounce}
                         active={activeIndex < 0 ?  null : activeIndex}

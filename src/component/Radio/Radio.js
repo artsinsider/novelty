@@ -1,6 +1,6 @@
 import React   from "react";
 import * as FA from "react-icons/fa";
-import "./radio.scss";
+import style from "./radio.scss";
 
 export default class Radio extends React.PureComponent {
 
@@ -10,9 +10,9 @@ export default class Radio extends React.PureComponent {
         return (
             this.props.value.map( check => {
                 return (
-                    <div className="radio-group" onClick={() =>this.changeChecked(check)} key={check + "_check"}>
+                    <div className={style["radio-group"]} onClick={() =>this.changeChecked(check)} key={check + "_check"}>
                         {check === this.props.defaultValue ? <FA.FaCheckCircle/> :  <FA.FaCircle/>}
-                        <p className="radio-name" >{check.toLocaleUpperCase()}</p>
+                        <p className={style["radio-name"]}>{check.toLocaleUpperCase()}</p>
                     </div>
                 )
             })

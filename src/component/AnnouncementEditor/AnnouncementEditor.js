@@ -6,10 +6,7 @@ import Button       from "../Button/Button";
 import Checkbox     from "../Checkbox/Checkbox";
 import Radio        from "../Radio/Radio";
 import { Contexts} from "../../test/Wrapper"
-
-import 'react-quill/dist/quill.snow.css';
-import "./react-datetime.scss"
-import "./editor.scss"
+import style from "./editor.scss"
 
 export default class AnnouncementEditor extends React.PureComponent{
     static contextType = Contexts;
@@ -59,19 +56,19 @@ export default class AnnouncementEditor extends React.PureComponent{
             readOnly: true,
             id: 'date'
         };
-        console.log("====this.context)",this.context);
+        // console.log("====this.context)",this.context);
         // console.log("props",this.props);
 
         return (
-            <div className="container-editor">
-                <div className="title">
-                    <span className="main-title">
+            <div className={style["container-editor"]}>
+                <div className={style["title"]}>
+                    <span className={style["main-title"]}>
                         <label htmlFor="title-text">Заголовок аннонса</label>
-                        <input name="title" id="title-text" value={title} className="title-text" type="text" onChange={(e) => changeAnnouncement(e.target.name, e.target.value)}/>
-                        {this.state.valid.title && <div className="invalid" >Не указан заголовок бупликации</div>}
+                        <input name="title" id="title-text" value={title} className={style["title-text"]} type="text" onChange={(e) => changeAnnouncement(e.target.name, e.target.value)}/>
+                        {this.state.valid.title && <div className={style["invalid"]} >Не указан заголовок бупликации</div>}
                     </span>
 
-                    <span className="date">
+                    <span className={style["date"]}>
                         <label htmlFor="dates">Дата публикации</label>
                         <DateTime
                             className="dateFrom"

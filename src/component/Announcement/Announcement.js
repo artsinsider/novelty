@@ -4,8 +4,8 @@ import {Column,Table,AutoSizer} from 'react-virtualized';
 import ModalEdit                from '../Modal/Modal';
 import Button                   from "../Button/Button";
 import moment                   from "moment";
-import 'react-virtualized/styles.css'; // only needs to be imported once
-import "./announcement.scss"
+// import 'react-virtualized/styles.css'; // only needs to be imported once
+import styles from "./announcement.scss"
 
 export default class Announcement extends React.PureComponent {
     constructor(props){
@@ -21,7 +21,7 @@ export default class Announcement extends React.PureComponent {
         const {announcement, active = null, selectAnnouncement} = this.props;
 
         return (
-            <div className="announcement-container">
+            <div className={styles["announcement-container"]}>
                 <Button type="success" action={this.props.toggleEditor}>
                     Добавить аннонс
                 </Button>

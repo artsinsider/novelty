@@ -1,7 +1,7 @@
 import React              from 'react';
 import Modal              from 'react-modal';
 import AnnouncementEditor from '../AnnouncementEditor/AnnouncementEditor'
-import "./modal.scss"
+import style from "./modal.scss"
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#app');
@@ -30,7 +30,7 @@ export default class  ModalEdit extends React.Component {
                 <Modal
                     isOpen={this.props.openEditor}
                     contentLabel="Minimal Modal Example"
-                    className="Modal"
+                    className={style["Modal"]}
                     overlayClassName="Overlay"
                 >
                     <AnnouncementEditor

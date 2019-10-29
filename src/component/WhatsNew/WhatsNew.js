@@ -1,9 +1,10 @@
 import React        from 'react';
 import classnames   from 'classnames';
-import moment   from 'moment';
+import moment       from 'moment';
 import {Scrollbars} from 'react-custom-scrollbars';
 import Stub         from "../Stub/Stub"
-import './whats-new.scss'
+import style from './whats-new.scss';
+
 
 export default class WhatsNew extends React.PureComponent {
     constructor(props){
@@ -15,8 +16,8 @@ export default class WhatsNew extends React.PureComponent {
     }
 
     componentDidMount() {
-        if(document.querySelector(".whats-new")) {
-            this.setState({maxHeight: document.querySelector(".whats-new").clientHeight});
+        if(document.querySelector("."+style["whats-new"])) {
+            this.setState({maxHeight: document.querySelector("."+style["whats-new"]).clientHeight});
         }
         localStorage.setItem("nov", JSON.stringify([]))
     }
@@ -33,27 +34,28 @@ export default class WhatsNew extends React.PureComponent {
         const {isTopHeader, maxHeight} = this.state;
         const {announce, active} = this.props;
         const headerClassNames = classnames({
-            "header-novelty" : true,
-            collapse: isTopHeader
+            [style["header-novelty"]] : true,
+            [style["collapse"]]: isTopHeader
         });
 
         return(
             <>
                 {active === null ? <Stub/> : null}
-                <div className="whats-new">
+                <div className={style["whats-new"]}>
                     <div className={headerClassNames}>Что нового?</div>
                     <Scrollbars
                         ref="whatsNew"
+                        className="scroll_bars"
                         autoHeight
                         autoHeightMin={100}
                         autoHeightMax={maxHeight ? isTopHeader ? maxHeight - 66 : maxHeight - 66 : 0}
                         onScroll={this.onScroll}
                     >
                         {announce &&
-                            <div className="container-novelty">
-                                <h1>{announce.title}</h1><span className="time-novelty">{announce.time ? moment(announce.time ).format("DD.MM.YYYY") : ""}</span>
-                                <div key={announce.id} className="novelty" dangerouslySetInnerHTML={{__html: announce.content}}/>
-                                <div className="line"/>
+                            <div className={style["container-novelty"]}>
+                                <h1>{announce.title}</h1><span className={style["time-novelty"]}>{announce.time ? moment(announce.time ).format("DD.MM.YYYY") : ""}</span>
+                                <div key={announce.id} className={style["novelty"]} dangerouslySetInnerHTML={{__html: announce.content}}/>
+                                <div className={style["line"]}/>
                             </div> }
                     </Scrollbars>
                 </div>

@@ -2,12 +2,14 @@ const path = require("path");
 const webpack = require('webpack');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const isDevelopment = true;//process.env.NODE_ENV === 'development'
 
 module.exports = {
     mode: 'production',
     entry:  {
-       index: "./src/index.js",
-        home: "./src/home.js"
+       index: "./src/index.js"
     },
     output: {
         filename: "[name].[hash].bundle.js",
@@ -21,34 +23,25 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ],
-                exclude: /\.module\.css$/
-            },
-            {
-                test: /\.css$/,
+                test: /\.s?css$/,
                 use: [
                     'style-loader',
                     {
-                        loader: 'css-loader',
+                        loader:  'css-loader',
                         options: {
                             importLoaders: 1,
-                            modules: true
+                            modules: true,
+                            sourceMap: isDevelopment,
+                            localsConvention: 'camelCaseOnly',
                         }
-                    }
-                ],
-                include: /\.module\.css$/
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader'
-                ]
+                    },
+                    {
+
+                        loader: 'resolve-url-loader',
+                    },
+                    {loader: 'sass-loader', options: {minimize: !isDevelopment, "import-css": true}},
+
+            ],
             },
             {
                 test: /\.svg$/,
@@ -68,10 +61,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [
-            '.js',
-            '.jsx'
-        ]
+        extensions: [' ','.js', '.jsx', '.scss', ".css"]
     },
     devServer: {
         contentBase: './dist'
@@ -83,7 +73,11 @@ module.exports = {
             template: require('html-webpack-template'),
             inject: false,
             appMountId: 'app',
-        })
+        }),
+        new MiniCssExtractPlugin({
+            filename: isDevelopment ? '[name].css' : '[name].[hash].css',
+            chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
+    })
     ],
     optimization: {
         runtimeChunk: 'single',

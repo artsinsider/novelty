@@ -1,11 +1,10 @@
 import React from "react";
 import {FaBullhorn}     from 'react-icons/fa';
-import "./stub.scss"
+import style from  "./stub.scss"
 export default function Stub() {
-
     return (
-        <div className="stub">
-            <FaBullhorn className="bullhorn"/>
+        <div className={style["stub"]}>
+            <FaBullhorn className={style["bullhorn"]}/>
             <p>выберите аннонс</p>
         </div>
     )
