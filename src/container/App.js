@@ -1,10 +1,13 @@
-import React, {createContext} from "react";
-import {hot} from "react-hot-loader"
-import WhatsNew from "../component/WhatsNew/WhatsNew"
-import Announcement from "../component/Announcement/Announcement"
-import Wrap from "../test/Wrapper"
-import moment from "moment"
-import appStyle from  "./app.scss"
+import React,{createContext} from "react";
+import {hot}                 from "react-hot-loader"
+import WhatsNew              from "../component/WhatsNew/WhatsNew"
+import Announcement          from "../component/Announcement/Announcement"
+import AnnouncementEditor    from '../component/AnnouncementEditor/AnnouncementEditor'
+import Preloader             from "../component/Preloader/Preloader"
+import Wrap                  from "../test/Wrapper"
+import moment                from "moment"
+import {whoAmi}              from "../common/network";
+import appStyle              from "./app.scss"
 
 const locale = 'ru';
 moment.locale(locale);
@@ -20,7 +23,7 @@ const template = {
     };
 let list = [];
 
-for (let i = 1; i <= 275; i++) {
+for (let i = 1; i <= 20; i++) {
     const ids = Math.floor(Math.random() * (100 + i));
     const item = {...template}
     const time = 1571920828 * 1000;
@@ -65,11 +68,19 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listAnnounce: [...list],
+            listAnnounce: [],
             active: null,
             openEditor: false,
-            announce: {...template}
+            announce: {...template},
+            isLoading: false
         };
+    }
+
+    componentDidMount() {
+        this.setState({isLoading: true});
+        whoAmi()
+            .then(res => this.setState({listAnnounce: [...res.data.result], isLoading: false}))
+            .catch( err =>  this.setState({listAnnounce: [...list], isLoading: false}))
     }
 
     selectAnnouncement = (id) => {
@@ -77,26 +88,33 @@ class App extends React.Component {
     };
 
     editAnnouncement = (id) => {
-        this.setState((state) => ({openEditor: !state.openEditor, announce: state.listAnnounce.filter(item => item.id === id)[0], active: id }))
+        this.setState((state) => ({
+            openEditor: !state.openEditor,
+            announce: state.listAnnounce.filter(item => item.id === id)[0],
+            active: id
+        }))
     };
 
     changeAnnouncement = (name, data) => {
         let changeData = data;
-        if(name === "role") {
-            if(!data.checked) {
-                changeData = this.state.announce.role.filter( item => item !== data.value)
+        if (name === "role") {
+            if (!data.checked) {
+                changeData = this.state.announce.role.filter(item => item !== data.value)
             } else {
                 changeData = [...this.state.announce.role, data.value]
             }
         }
-
         this.setState(state => ({announce: {...state.announce, [name]: changeData}}))
     };
 
-    toggleEditor = () => this.setState((state) => ({active: state.openEditor ? null :"empty", openEditor: !state.openEditor, announce: {...template}}));
+    toggleEditor = () => this.setState((state) => ({
+        active: state.openEditor ? null : "empty",
+        openEditor: !state.openEditor,
+        announce: {...template}
+    }));
 
     publishNovelty = (id, prop) => {
-        if(id === "empty") {
+        if (id === "empty") {
             const newId = "cr_" + Math.floor(Math.random() * 100);
             const newListAnnounce = [{...this.state.announce, id: newId, publish: prop}, ...this.state.listAnnounce];
             this.setState((state) => (
@@ -115,40 +133,47 @@ class App extends React.Component {
             {
                 openEditor: !state.openEditor,
                 announce: {...template},
-                listAnnounce: state.listAnnounce.map(item =>  item.id === id ? updateAnnounce : item),
+                listAnnounce: state.listAnnounce.map(item => item.id === id ? updateAnnounce : item),
                 active: id
             }));
     };
 
     render() {
         const {listAnnounce, active, openEditor, announce} = this.state;
-        const activeIndex = listAnnounce.findIndex(el => el.id === active) ;
-        const announces = activeIndex !== -1 &&!openEditor ? listAnnounce[activeIndex] : announce;
-
+        const activeIndex = listAnnounce.findIndex(el => el.id === active);
+        const announces = activeIndex !== -1 && !openEditor ? listAnnounce[activeIndex] : announce;
         return (
             <>
-                <div className={appStyle["header"]}>Аннонсы</div>
                 <div className={appStyle["container"]}>
-                    <Announcement
-                        announcement={listAnnounce}
-                        active={activeIndex < 0 ?  null : activeIndex}
-                        selectAnnouncement={this.selectAnnouncement}
-                        editAnnouncement={this.editAnnouncement}
-                        toggleEditor={this.toggleEditor}
-                        publishNovelty={this.publishNovelty}
-                        changeAnnouncement={this.changeAnnouncement}
-                        openEditor={openEditor}
-                        announce={announces}
-                    />
-
-                        <WhatsNew
-                            lang={locale}
-                            active={active}
-                            announce={announces}
+                    {!openEditor ?
+                        <Announcement
+                            announcement={listAnnounce}
+                            active={activeIndex < 0 ? null : activeIndex}
+                            selectAnnouncement={this.selectAnnouncement}
+                            editAnnouncement={this.editAnnouncement}
                             toggleEditor={this.toggleEditor}
+                            publishNovelty={this.publishNovelty}
+                            changeAnnouncement={this.changeAnnouncement}
+                            openEditor={openEditor}
+                            announce={announces}
                         />
+                        :
+                        <AnnouncementEditor
+                            toggleEditor={this.toggleEditor}
+                            changeAnnouncement={this.changeAnnouncement}
+                            announce={announces}
+                            publishNovelty={this.publishNovelty}
+                        />
+                    }
 
+                    <WhatsNew
+                        lang={locale}
+                        active={active}
+                        announce={announces}
+                        toggleEditor={this.toggleEditor}
+                    />
                 </div>
+                <Preloader isLoading={this.state.isLoading}/>
             </>
         );
     }

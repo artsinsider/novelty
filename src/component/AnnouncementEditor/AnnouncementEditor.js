@@ -5,8 +5,8 @@ import moment       from 'moment'
 import Button       from "../Button/Button";
 import Checkbox     from "../Checkbox/Checkbox";
 import Radio        from "../Radio/Radio";
-import { Contexts} from "../../test/Wrapper"
-import style from "./editor.scss"
+import { Contexts}  from "../../test/Wrapper"
+import style        from "./editor.scss"
 
 export default class AnnouncementEditor extends React.PureComponent{
     static contextType = Contexts;
@@ -56,8 +56,6 @@ export default class AnnouncementEditor extends React.PureComponent{
             readOnly: true,
             id: 'date'
         };
-        // console.log("====this.context)",this.context);
-        // console.log("props",this.props);
 
         return (
             <div className={style["container-editor"]}>
@@ -67,11 +65,10 @@ export default class AnnouncementEditor extends React.PureComponent{
                         <input name="title" id="title-text" value={title} className={style["title-text"]} type="text" onChange={(e) => changeAnnouncement(e.target.name, e.target.value)}/>
                         {this.state.valid.title && <div className={style["invalid"]} >Не указан заголовок бупликации</div>}
                     </span>
-
                     <span className={style["date"]}>
                         <label htmlFor="dates">Дата публикации</label>
                         <DateTime
-                            className="dateFrom"
+                            className={style["date"]}
                             inputProps={dateToProps}
                             onChange={this.getFromTime}
                             value={moment(this.state.date)}
@@ -81,19 +78,18 @@ export default class AnnouncementEditor extends React.PureComponent{
                             locale={"ru"}
                             isValidDate={this.validFrom}
                         />
-                        {this.state.valid.time && <div className="invalid" >Не указана дата бупликации</div>}
+                        {this.state.valid.time && <div className={style["invalid"]} >Не указана дата бупликации</div>}
                     </span>
 
-                    <span className="role">
+                    <span className={style["role"]}>
                         <label htmlFor="role">Доступен ролям</label>
                         {this.context.roles.map(el => <Checkbox key={el.value} name="role" checked={role.includes(el.value)} action={changeAnnouncement} value={el.value} >{el.name}</Checkbox>)}
                     </span>
 
-                    <span className="locale">
+                    <span className={style["locale"]}>
                         <label htmlFor="locale">Язык аннонса</label>
                         <Radio name="locale" defaultValue={locale} action={changeAnnouncement} value={["ru","en"]} />
                     </span>
-
                 </div>
                 <div>
                     <ReactQuill
@@ -105,7 +101,7 @@ export default class AnnouncementEditor extends React.PureComponent{
                         bounds={'.editor'}
                         placeholder={this.props.placeholder}
                     />
-                    {this.state.valid.content && <div className="invalid" >Необходимо описание аннонса</div>}
+                    {this.state.valid.content && <div className={style["invalid"]} >Необходимо описание аннонса</div>}
                 </div>
 
                 <Button  type="success" action={this.publishNovelty(id, false)} >Сохранить</Button>
@@ -113,7 +109,7 @@ export default class AnnouncementEditor extends React.PureComponent{
                     <Button  type="success" action={this.publishNovelty(id, true)} >Сохранить и опубликовать</Button> :
                     <Button  type="error" action={this.publishNovelty(id, null)} >Снять с публикации</Button>
                 }
-                <Button  type="full" action={this.props.toggleEditor} >Отменить</Button>
+                <Button type="full" action={this.props.toggleEditor} >Отменить</Button>
             </div>
         )
     }

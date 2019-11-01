@@ -3,8 +3,7 @@ import classnames   from 'classnames';
 import moment       from 'moment';
 import {Scrollbars} from 'react-custom-scrollbars';
 import Stub         from "../Stub/Stub"
-import style from './whats-new.scss';
-
+import style        from "./whatsNew.scss";
 
 export default class WhatsNew extends React.PureComponent {
     constructor(props){
@@ -45,7 +44,7 @@ export default class WhatsNew extends React.PureComponent {
                     <div className={headerClassNames}>Что нового?</div>
                     <Scrollbars
                         ref="whatsNew"
-                        className="scroll_bars"
+                        className={style["scroll_bars"]}
                         autoHeight
                         autoHeightMin={100}
                         autoHeightMax={maxHeight ? isTopHeader ? maxHeight - 66 : maxHeight - 66 : 0}
@@ -53,7 +52,7 @@ export default class WhatsNew extends React.PureComponent {
                     >
                         {announce &&
                             <div className={style["container-novelty"]}>
-                                <h1>{announce.title}</h1><span className={style["time-novelty"]}>{announce.time ? moment(announce.time ).format("DD.MM.YYYY") : ""}</span>
+                                <h1>{announce.title}</h1><span className={style["time-novelty"]}>{announce.time ? moment(announce.time * 1000 ).format("DD.MM.YYYY") : ""}</span>
                                 <div key={announce.id} className={style["novelty"]} dangerouslySetInnerHTML={{__html: announce.content}}/>
                                 <div className={style["line"]}/>
                             </div> }

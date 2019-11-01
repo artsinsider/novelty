@@ -12,7 +12,7 @@ module.exports = {
        index: "./src/index.js"
     },
     output: {
-        filename: "[name].[hash].bundle.js",
+        filename: "[name].[contenthash].bundle.js",
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     }, module: {
@@ -32,7 +32,7 @@ module.exports = {
                             importLoaders: 1,
                             modules: true,
                             sourceMap: isDevelopment,
-                            localsConvention: 'camelCaseOnly',
+                            localsConvention: 'asIs',
                         }
                     },
                     {
@@ -61,10 +61,19 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [' ','.js', '.jsx', '.scss', ".css"]
+        extensions: ['.js', '.jsx', '.scss', ".css"]
     },
     devServer: {
-        contentBase: './dist'
+        contentBase: './dist',
+        port: 3000,
+        compress: true,
+        // https: true,
+        proxy: {
+            '/api': {
+                target: "https://admin.dev.terminal.tass.ru",
+                secure: false
+            }
+        }
     },
     plugins: [
         new LodashModuleReplacementPlugin,
@@ -72,7 +81,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: require('html-webpack-template'),
             inject: false,
-            appMountId: 'app',
+            appMountId: 'spir-announces',
         }),
         new MiniCssExtractPlugin({
             filename: isDevelopment ? '[name].css' : '[name].[hash].css',
